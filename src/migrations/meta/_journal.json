@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1729848750437,
+      "tag": "0000_real_layla_miller",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1729849431709,
+      "tag": "0001_curious_big_bertha",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1729849820114,
+      "tag": "0002_harsh_dracula",
+      "breakpoints": true
+    }
+  ]
+}

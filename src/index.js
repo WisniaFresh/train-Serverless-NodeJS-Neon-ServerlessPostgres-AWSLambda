@@ -1,8 +1,11 @@
 const serverless = require("serverless-http");
 const express = require("express");
-const { getDbClient } = require("./db/clinets");
-
+const { getDbClient } = require("./db/clients");
+const crud = require("./db/crud");
 const app = express();
+const bodyParser = require("body-parser");
+
+app.use(express.json());
 
 app.get("/", async (req, res, next) => {
   const sql = await getDbClient();
@@ -18,6 +21,25 @@ app.get("/", async (req, res, next) => {
 app.get("/path", (req, res, next) => {
   return res.status(200).json({
     message: "Hello from path!",
+  });
+});
+
+app.get("/leads", async (req, res, next) => {
+  const results = await crud.listLeads();
+  return res.status(200).json({
+    message: "Hello from get leads path!",
+    results,
+  });
+});
+
+app.post("/leads", async (req, res, next) => {
+  const data = await req.body;
+  console.log("data", data);
+  const result = await crud.newLead(data);
+
+  return res.status(200).json({
+    message: "Hello from post path!",
+    result,
   });
 });
 
