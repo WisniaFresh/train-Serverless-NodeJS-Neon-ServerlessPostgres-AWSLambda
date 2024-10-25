@@ -2,8 +2,8 @@ const serverless = require("serverless-http");
 const express = require("express");
 const { getDbClient } = require("./db/clients");
 const crud = require("./db/crud");
+const validators = require("./db/validators");
 const app = express();
-const bodyParser = require("body-parser");
 
 app.use(express.json());
 
@@ -15,6 +15,7 @@ app.get("/", async (req, res, next) => {
   return res.status(200).json({
     message: "Hello from root!",
     delta: delta,
+    stage: process.env.STAGE || "prod",
   });
 });
 
@@ -33,11 +34,25 @@ app.get("/leads", async (req, res, next) => {
 });
 
 app.post("/leads", async (req, res, next) => {
-  const data = await req.body;
-  console.log("data", data);
-  const result = await crud.newLead(data);
+  const postData = await req.body;
+  console.log("postData", postData);
 
-  return res.status(200).json({
+  //validation
+  const { data, hasError, message } = await validators.validateLead(postData);
+  console.log("validdata", data);
+  if (hasError === true) {
+    return res.status(400).json({
+      message: message || "Invalid request. Please try again",
+    });
+  } else if (hasError === undefined) {
+    return res.status(500).json({
+      message: "Server Error",
+    });
+  }
+
+  //creation
+  const result = await crud.newLead(data);
+  return res.status(201).json({
     message: "Hello from post path!",
     result,
   });
