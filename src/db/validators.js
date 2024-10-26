@@ -3,7 +3,7 @@ const { z } = require("zod");
 async function validateLead(postData) {
   const leadObjectValidation = z.object({
     email: z.string().email().min(5),
-    description: z.string(),
+    description: z.string().optional(),
   });
 
   let hasError;
