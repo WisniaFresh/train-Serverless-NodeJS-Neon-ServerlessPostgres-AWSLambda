@@ -29,7 +29,7 @@ app.get("/leads/:id", async (req, res, next) => {
   const { id } = req.params;
   const results = await crud.getLead(id);
   return res.status(200).json({
-    message: "Hello from get one lead path!",
+    message: `Hello from get id:${id} lead path!`,
     results,
   });
 });
